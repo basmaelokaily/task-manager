@@ -1,0 +1,73 @@
+// This is your Prisma schema file,
+// learn more about it in the docs: https://pris.ly/d/prisma-schema
+
+// Looking for ways to speed up your queries, or scale easily with your serverless or edge functions?
+// Try Prisma Accelerate: https://pris.ly/cli/accelerate-init
+
+generator client {
+  provider = "prisma-client-js"
+  // output   = "../generated/prisma"
+}
+
+// prisma/schema.prisma
+datasource db {
+  provider  = "postgresql"
+  url  	    = env("DATABASE_URL")
+  // uncomment next line if you use Prisma <5.10
+  // directUrl = env("DATABASE_URL_UNPOOLED")
+}
+
+model Task{
+  id Int @id @default(autoincrement())
+  title String 
+  description String?
+  status TaskStatus?
+  priority TaskPriority
+  dueDate DueDate?
+  createdAt DateTime @default(now())
+  updatedAt DateTime @updatedAt 
+  completedAt DateTime?
+  category  String?
+  tags      String[]  // PostgreSQL array type
+  assignedTo String?
+  createdBy String?
+  estimatedMinutes Int?
+  actualMinutes Int?
+  isRecurring Boolean @default(false)
+  recurrencePattern String?
+}  
+
+// enum TaskPriority {
+//   low = 'low',
+//   medium = 'medium',
+//   high = 'high',
+//   urgent = 'urgent',
+// }
+// enum TaskStatus {
+//   todo = 'todo',
+//   inProgress = 'in_progress',
+//   completed = 'completed',
+//   cancelled = 'cancelled',
+// }
+// enum DueDate {
+//   today = 'today',
+//   noDueDate = 'noDueDate',
+// }
+enum TaskPriority {
+  low
+  medium
+  high
+  urgent
+}
+
+enum TaskStatus {
+  todo
+  in_progress
+  completed
+  cancelled
+}
+
+enum DueDate {
+  today
+  noDueDate
+}
